@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - PawCare</title>
+    <link rel="stylesheet" href="about.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./navbar.css">
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        (function(){
+            emailjs.init("W4RzS_746nkRaJZCv"); // Replace with your Email.js user ID
+        })();
+        
+        function sendEmail(event) {
+            event.preventDefault(); // Prevent the default form submission
+            const form = event.target;
+
+            emailjs.sendForm('service_0ofnpj8', 'template_yscrpol', form)
+                .then(() => {
+                    alert('Message sent successfully!');
+                    form.reset(); // Reset the form after successful submission
+                }, (error) => {
+                    alert('Failed to send message. Please try again later.');
+                    console.error('Email sending error:', error);
+                });
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#" class="nav-logo">
+                <img src="https://png.pngtree.com/png-vector/20230124/ourmid/pngtree-pet-care-logo-png-image_6571337.png" alt="Logo" style="height: 60px;">
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18"></path>
+                </svg>
+            </button>
+    
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link active">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="login.html" class="nav-link">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="hero-section">
+            <h1>About PawCare</h1>
+            <p class="tagline">Where Every Pet Feels Like Family</p>
+        </div>
+
+        <section class="about-section">
+            <div class="card mission-card">
+                <i class="fas fa-heart"></i>
+                <h2>Our Mission</h2>
+                <p>Our mission is to ensure that every pet receives the highest quality of care and attention. We strive to create a safe and loving environment where pets can thrive and families can have peace of mind.</p>
+            </div>
+
+            <div class="card team-card">
+                <i class="fas fa-users"></i>
+                <h2>Our Team</h2>
+                <p>Our dedicated team of pet care professionals brings years of experience and endless passion to caring for your beloved pets. Each team member is certified and committed to providing exceptional care.</p>
+            </div>
+
+            <div class="card values-card">
+                <i class="fas fa-star"></i>
+                <h2>Our Values</h2>
+                <div class="values-grid">
+                    <div class="value-item">
+                        <h3>Love</h3>
+                        <p>Treating every pet with genuine care and affection</p>
+                    </div>
+                    <div class="value-item">
+                        <h3>Safety</h3>
+                        <p>Maintaining the highest standards of pet safety</p>
+                    </div>
+                    <div class="value-item">
+                        <h3>Trust</h3>
+                        <p>Building lasting relationships with pet families</p>
+                    </div>
+                    <div class="value-item">
+                        <h3>Excellence</h3>
+                        <p>Delivering outstanding service every day</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <section class="contact-section">
+        <h2>Contact Us</h2>
+        <p>If you have any questions or need assistance, feel free to reach out to us!</p>
+        <form class="contact-form" onsubmit="sendEmail(event)">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="submit-button">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2024 PawCare. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 

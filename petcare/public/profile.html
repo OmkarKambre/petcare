@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - PawCare</title>
+    <link rel="stylesheet" href="profile.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            let services = []; // Declare services here
+
+            try {
+                const userResponse = await fetch('/user-profile');
+                if (!userResponse.ok) {
+                    throw new Error('Failed to fetch user details');
+                }
+
+                const user = await userResponse.json();
+                document.getElementById('user-name').textContent = user.full_name;
+                document.getElementById('user-email').textContent = user.email;
+
+                const servicesResponse = await fetch('/user-services');
+                if (!servicesResponse.ok) {
+                    throw new Error('Failed to fetch services');
+                }
+
+                services = await servicesResponse.json(); // Assign to the declared variable
+                const servicesList = document.getElementById('services-list');
+                servicesList.innerHTML = ''; // Clear existing content
+
+                services.forEach(service => {
+                    const serviceItem = document.createElement('div');
+                    serviceItem.className = 'service-item';
+                    serviceItem.innerHTML = `
+                        <p><strong>Service Type:</strong> ${service.service_type}</p>
+                        <p><strong>Pet Name:</strong> ${service.pet_name}</p>
+                        <p><strong>Pet Type:</strong> ${service.pet_type}</p>
+                        <p><strong>Date:</strong> ${service.start_date} to ${service.end_date}</p>
+                        <p><strong>Time Slot:</strong> ${service.time_slot}</p>
+                        <p><strong>Instructions:</strong> ${service.special_instructions || 'None'}</p>
+                    `;
+                    servicesList.appendChild(serviceItem);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to load profile details.');
+            }
+
+            // Add event listener for the download button
+            document.getElementById('download-pdf').addEventListener('click', () => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Add watermark
+                doc.setFontSize(50);
+                doc.setTextColor(150); // Light gray color for watermark
+                doc.text('PawCare', 105, 150, { angle: 45, align: 'center', baseline: 'middle' });
+
+                // Set title
+                doc.setFontSize(24);
+                doc.setFont("helvetica", "bold");
+                doc.setTextColor(0); // Black text
+                doc.text('Booked Services', 10, 20);
+                doc.setFontSize(12);
+                doc.setTextColor(100);
+                doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 10, 30);
+                doc.line(10, 35, 200, 35); // Horizontal line
+
+                // Add a header with a background color
+                doc.setFillColor(220, 220, 220); // Light gray background
+                doc.rect(0, 0, 210, 40, 'F'); // Fill rectangle for header
+                doc.setTextColor(0); // Black text
+                doc.setFontSize(18);
+                doc.text('PawCare - Your Pet Services', 10, 25);
+
+                // Add services details
+                let y = 50; // Starting position for text
+                services.forEach(service => {
+                    doc.setFontSize(14);
+                    doc.setTextColor(0);
+                    doc.text(`Service Type: ${service.service_type}`, 10, y);
+                    y += 10;
+                    doc.text(`Pet Name: ${service.pet_name}`, 10, y);
+                    y += 10;
+                    doc.text(`Pet Type: ${service.pet_type}`, 10, y);
+                    y += 10;
+                    doc.text(`Date: ${service.start_date} to ${service.end_date}`, 10, y);
+                    y += 10;
+                    doc.text(`Time Slot: ${service.time_slot}`, 10, y);
+                    y += 10;
+                    doc.text(`Instructions: ${service.special_instructions || 'None'}`, 10, y);
+                    y += 15; // Extra space between services
+                    doc.line(10, y, 200, y); // Horizontal line between services
+                    y += 5; // Extra space after line
+                });
+
+                // Add footer
+                doc.setFontSize(10);
+                doc.setTextColor(100);
+                doc.text('Thank you for choosing PawCare!', 10, 280); // Adjust y position as needed
+                doc.text('Contact us: support@pawcare.com', 10, 285); // Adjust y position as needed
+                doc.text('Phone: (123) 456-7890', 10, 290); // Adjust y position as needed
+
+                // Save the PDF
+                doc.save('booked_services.pdf');
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#" class="nav-logo">
+                <img src="https://png.pngtree.com/png-vector/20230124/ourmid/pngtree-pet-care-logo-png-image_6571337.png" alt="Logo" style="height: 60px;">
+            </a>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="profile.html" class="nav-link active">Profile</a>
+                <a href="login.html" class="nav-link">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <h1 style="margin-top: 50px;">User Profile</h1>
+        <div class="profile-details">
+            <p><strong>Name:</strong> <span id="user-name"></span></p>
+            <p><strong>Email:</strong> <span id="user-email"></span></p>
+        </div>
+        <h2>Booked Services</h2>
+        <div id="services-list" class="services-list">
+            <!-- Services will be dynamically inserted here -->
+        </div>
+        <button id="download-pdf" class="back-button">Download as PDF</button>
+        <a href="home.html" class="back-button">Back to Home</a>
+    </div>
+</body>
+</html>

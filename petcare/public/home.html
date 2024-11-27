@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Care Service</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./navbar.css">
+</head>
+<body>
+    <!-- Include the navbar component -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#" class="nav-logo">
+                <img src="https://png.pngtree.com/png-vector/20230124/ourmid/pngtree-pet-care-logo-png-image_6571337.png" alt="Logo" style="height: 60px;">
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18"></path>
+                </svg>
+            </button>
+    
+            <div class="nav-links">
+                <a href="home.html" class="nav-link active">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="login.html" class="nav-link">Logout</a>
+            </div>
+        </div>
+    </nav> 
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Your Pet's Second Home</h1>
+            <p>Professional pet care services with love and dedication</p>
+            <a href="services.html"><button class="cta-button">Book Now</button></a>
+        </div>
+    </div>
+
+    <div class="services">
+        <h2>Our Services</h2>
+        <div class="service-cards">
+            <div class="service-card">
+                <i class="fas fa-home"></i>
+                <h3>Pet Boarding</h3>
+                <p>Safe and comfortable stay for your pets</p>
+                <button class="learn-more" onclick="openModal('boarding-modal')">Learn More</button>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-heart"></i>
+                <h3>Pet Grooming</h3>
+                <p>Professional grooming services</p>
+                <button class="learn-more" onclick="openModal('grooming-modal')">Learn More</button>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-walking"></i>
+                <h3>Dog Walking</h3>
+                <p>Regular exercise and outdoor activities</p>
+                <button class="learn-more" onclick="openModal('walking-modal')">Learn More</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="boarding-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('boarding-modal')">&times;</span>
+            <h2>Pet Boarding Services</h2>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1" alt="Pet Boarding">
+                <p>Our pet boarding services include:</p>
+                <ul>
+                    <li>24/7 supervision</li>
+                    <li>Comfortable, climate-controlled rooms</li>
+                    <li>Daily exercise and playtime</li>
+                    <li>Regular feeding schedule</li>
+                    <li>Medical care if needed</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="grooming-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('grooming-modal')">&times;</span>
+            <h2>Pet Grooming Services</h2>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7" alt="Pet Grooming">
+                <p>Our grooming services include:</p>
+                <ul>
+                    <li>Bath and brush</li>
+                    <li>Nail trimming</li>
+                    <li>Ear cleaning</li>
+                    <li>Hair styling</li>
+                    <li>Teeth brushing</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="walking-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('walking-modal')">&times;</span>
+            <h2>Dog Walking Services</h2>
+            <div class="modal-body">
+                <img src="https://images.unsplash.com/photo-1494947665470-20322015e3a8" alt="Dog Walking">
+                <p>Our dog walking services include:</p>
+                <ul>
+                    <li>Scheduled daily walks</li>
+                    <li>Group or individual walks</li>
+                    <li>Park visits</li>
+                    <li>Exercise and training</li>
+                    <li>Regular updates and photos</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2024 PawCare. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Add this script before closing body tag -->
+    <script>
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'block';
+            // Force reflow
+            modal.offsetHeight;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                closeModal(event.target.id);
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.getElementsByClassName('modal');
+                for (let modal of modals) {
+                    if (modal.style.display === 'block') {
+                        closeModal(modal.id);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

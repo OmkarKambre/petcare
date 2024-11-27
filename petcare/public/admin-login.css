@@ -1,0 +1,106 @@
+body {
+    background: linear-gradient(135deg, #000000, #1a1a1a, #4b0082);
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.admin-login-container {
+    background: rgba(26, 26, 26, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2.5rem;
+    width: 400px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.admin-login-container h1 {
+    color: #ffffff;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.admin-login-container h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #4b0082, #800080);
+}
+
+.admin-input-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+    width: 100%;
+}
+
+.admin-input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #cccccc;
+}
+
+.admin-input-group input[type="text"],
+.admin-input-group input[type="password"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    background-color: #262626;
+    color: #ffffff;
+    box-sizing: border-box;
+}
+
+.admin-input-group input[type="text"]:focus,
+.admin-input-group input[type="password"]:focus {
+    border-color: #4b0082;
+    box-shadow: 0 0 10px rgba(75, 0, 130, 0.3);
+}
+
+.admin-login-button {
+    background: linear-gradient(45deg, #4b0082, #800080);
+    color: #ffffff;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: 600;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(75, 0, 130, 0.3);
+}
+
+.admin-login-button:hover {
+    background: linear-gradient(45deg, #800080, #4b0082);
+    box-shadow: 0 6px 20px rgba(75, 0, 130, 0.4);
+}
+
+.admin-signup-link {
+    margin-top: 1.5rem;
+    color: #cccccc;
+    font-size: 0.9rem;
+}
+
+.admin-signup-link a {
+    color: #4b0082;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.admin-signup-link a:hover {
+    text-decoration: underline;
+}

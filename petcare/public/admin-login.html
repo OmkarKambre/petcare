@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="admin-login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-login-container">
+        <h1>Admin Login</h1>
+        <form action="/admin-login" method="POST">
+            <div class="admin-input-group">
+                <label for="admin-username">Email</label>
+                <input type="text" id="admin-username" name="username" required>
+            </div>
+            <div class="admin-input-group">
+                <label for="admin-password">Password</label>
+                <input type="password" id="admin-password" name="password" required>
+            </div>
+            <button type="submit" class="admin-login-button">Login</button>
+            <p class="admin-signup-link">Return to <a href="login.html">User Login</a></p>
+        </form>
+    </div>
+</body>
+</html>

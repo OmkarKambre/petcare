@@ -1,0 +1,337 @@
+:root {
+    --primary-color: #8A2BE2;
+    --secondary-color: #4B0082;
+    --background-dark: #1a1a1a;
+    --text-light: #ffffff;
+    --text-gray: #cccccc;
+    --card-bg: #2a2a2a;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.navbar {
+    background-color: rgba(26, 26, 26, 0.95);
+    border-bottom: 2px solid var(--primary-color);
+    padding: 15px 30px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(rgba(74, 0, 130, 0.7), rgba(26, 26, 26, 0.9)),
+                url('https://images.unsplash.com/photo-1587764379873-97837921fd44') center/cover;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    margin-top: 80px;
+}
+
+.hero-section h1 {
+    font-size: 3.5em;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section .tagline {
+    font-size: 1.5em;
+    color: var(--text-gray);
+    margin-top: 10px;
+}
+
+/* Services Grid */
+.services-grid {
+    max-width: 1200px;
+    margin: 120px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.service-card {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(138, 43, 226, 0.2);
+}
+
+.service-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-icon i {
+    font-size: 2em;
+    color: var(--text-light);
+}
+
+.service-card h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.service-card p {
+    color: var(--text-gray);
+    margin-bottom: 20px;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.features-list li {
+    margin: 10px 0;
+    color: var(--text-gray);
+}
+
+.features-list i {
+    color: var(--primary-color);
+    margin-right: 10px;
+}
+
+.book-button {
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    color: var(--text-light);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.book-button:hover {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+}
+
+.booking-container {
+    max-width: 800px;
+    margin: 120px auto 50px;
+    padding: 30px;
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.booking-container h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+label {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+input, select, textarea {
+    padding: 12px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.submit-button {
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    color: var(--text-light);
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+}
+
+.submit-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .booking-container {
+        margin: 100px 20px 50px;
+        padding: 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Style the dropdown options */
+select option {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+}
+
+/* Style for invalid inputs */
+input:invalid, select:invalid {
+    border-color: #ff4444;
+}
+
+.footer-bottom {
+    background-color: black;
+    color: var(--text-gray);
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    margin-top: 50px;
+    border-top: 2px solid var(--primary-color);
+}
+
+.payment-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.payment-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.payment-summary {
+    margin-bottom: 20px;
+    color: var(--text-light);
+}
+
+.payment-summary p {
+    margin: 10px 0;
+}
+
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.payment-methods label {
+    font-weight: 500;
+}
+
+.payment-methods select {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.payment-methods select:focus {
+    border-color: var(--primary-color);
+}
+/* Keep your existing navbar and footer styles */

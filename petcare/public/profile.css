@@ -1,0 +1,142 @@
+:root {
+    --primary-color: #8A2BE2;
+    --secondary-color: #4B0082;
+    --background-dark: #0d0d0d;
+    --text-light: #ffffff;
+    --text-gray: #cccccc;
+    --card-bg: #1f1f1f;
+    --button-bg: #8A2BE2;
+    --button-hover-bg: #4B0082;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.navbar {
+    background-color: rgba(13, 13, 13, 0.95);
+    border-bottom: 2px solid var(--primary-color);
+    padding: 15px 30px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.nav-content {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 60px 20px;
+    box-sizing: border-box;
+    background-color: var(--background-dark);
+    width: 100%;
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 25px;
+    color: var(--text-light);
+}
+
+.profile-details {
+    margin-bottom: 25px;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-details p {
+    margin: 12px 0;
+    font-size: 18px;
+    color: var(--text-gray);
+}
+
+.services-list {
+    width: 100%;
+    max-width: 800px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.service-item {
+    background-color: var(--card-bg);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-item p {
+    margin: 5px 0;
+    color: var(--text-light);
+}
+
+.back-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: var(--button-bg);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.back-button:hover {
+    background-color: var(--button-hover-bg);
+}

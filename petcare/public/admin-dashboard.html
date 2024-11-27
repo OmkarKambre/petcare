@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="admin-dashboard.css"> <!-- Link to your dashboard CSS -->
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>Pet Service Admin Dashboard</h1>
+            <p>Welcome, Admin</p>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <h2>Total Users</h2>
+                <p id="total-users">Loading...</p>
+                <p>Registered users</p>
+            </div>
+            <div class="stat-card">
+                <h2>Active Bookings</h2>
+                <p id="booking-count">Loading...</p>
+                <p>Current active bookings</p>
+            </div>
+        </div>
+
+        <div class="recent-bookings">
+            <h2>Recent Bookings</h2>
+            <input type="text" placeholder="Search bookings..." id="search-bookings">
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Pet Name</th>
+                        <th>Service</th>
+                        <th>Due Date</th>
+                        <th>Special Instructions</th>
+                    </tr>
+                </thead>
+                <tbody id="booking-list">
+                    <!-- Booking data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <a href="/logout" class="logout-button">Logout</a>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>Special Instructions</h2>
+            <p id="special-instructions-content"></p>
+        </div>
+    </div>
+
+    <script>
+        // Fetch the number of bookings and total users when the page loads
+        Promise.all([
+            fetch('/api/booking-count'),
+            fetch('/api/total-users') // This will call the new endpoint
+        ])
+        .then(async ([bookingResponse, userResponse]) => {
+            const bookingData = await bookingResponse.json();
+            const userData = await userResponse.json();
+            document.getElementById('booking-count').innerText = bookingData.count;
+            document.getElementById('total-users').innerText = userData.count; // Display total users
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            document.getElementById('booking-count').innerText = 'Error loading data';
+            document.getElementById('total-users').innerText = 'Error loading data';
+        });
+
+        // Fetch recent bookings
+        fetch('/api/recent-bookings') // Call the new endpoint for recent bookings
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched bookings:', data); // Log the fetched data
+                const bookingList = document.getElementById('booking-list');
+                bookingList.innerHTML = ''; // Clear existing rows
+
+                // Store the fetched data for filtering
+                window.bookingsData = data; // Store data globally for filtering
+
+                data.forEach(booking => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${booking.user}</td>
+                        <td>${booking.pet_name}</td>
+                        <td>${booking.service_type}</td>
+                        <td>${booking.start_date}</td>
+                        <td>${booking.special_instructions || 'No special instructions.'}</td>
+                    `;
+                    bookingList.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching recent bookings:', error);
+            });
+
+        // Add event listener for the search input
+        document.getElementById('search-bookings').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase(); // Get the search term
+            const filteredBookings = window.bookingsData.filter(booking => {
+                return (
+                    booking.user.toLowerCase().includes(searchTerm) ||
+                    booking.pet_name.toLowerCase().includes(searchTerm) ||
+                    booking.service_type.toLowerCase().includes(searchTerm)
+                );
+            });
+
+            // Update the table with filtered results
+            const bookingList = document.getElementById('booking-list');
+            bookingList.innerHTML = ''; // Clear existing rows
+
+            filteredBookings.forEach(booking => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${booking.user}</td>
+                    <td>${booking.pet_name}</td>
+                    <td>${booking.service_type}</td>
+                    <td>${booking.start_date}</td>
+                    <td>${booking.special_instructions || 'No special instructions.'}</td>
+                `;
+                bookingList.appendChild(row);
+            });
+        });
+
+        function viewDetails(bookingId) {
+            // Fetch booking details including special instructions
+            fetch(`/api/booking-details?id=${bookingId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Display special instructions in the modal
+                    document.getElementById('special-instructions-content').innerText = data.special_instructions || 'No special instructions.';
+                    document.getElementById('details-modal').style.display = 'block'; // Show the modal
+                })
+                .catch(error => {
+                    console.error('Error fetching booking details:', error);
+                });
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('details-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

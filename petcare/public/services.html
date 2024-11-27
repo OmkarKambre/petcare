@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Services - PawCare</title>
+    <link rel="stylesheet" href="services.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="./navbar.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.booking-form');
+            const serviceTypeSelect = document.getElementById('service-type');
+            const serviceSummary = document.getElementById('service-summary');
+            const totalCostElement = document.querySelector('.payment-summary p strong:last-child');
+            const paymentMethodSelect = document.getElementById('payment-method');
+            const paymentDetails = document.getElementById('payment-details');
+            const creditCardDetails = document.getElementById('credit-card-details');
+            const paypalDetails = document.getElementById('paypal-details');
+            const bankTransferDetails = document.getElementById('bank-transfer-details');
+
+            serviceTypeSelect.addEventListener('change', function() {
+                const selectedOption = serviceTypeSelect.options[serviceTypeSelect.selectedIndex];
+                const cost = selectedOption.getAttribute('data-cost');
+                serviceSummary.textContent = selectedOption.text;
+                totalCostElement.textContent = `₹${cost}`;
+            });
+
+            paymentMethodSelect.addEventListener('change', function() {
+                creditCardDetails.style.display = 'none';
+                paypalDetails.style.display = 'none';
+                bankTransferDetails.style.display = 'none';
+
+                switch (paymentMethodSelect.value) {
+                    case 'Credit Card':
+                        creditCardDetails.style.display = 'block';
+                        break;
+                    case 'PayPal':
+                        paypalDetails.style.display = 'block';
+                        break;
+                    case 'Bank Transfer':
+                        bankTransferDetails.style.display = 'block';
+                        break;
+                }
+            });
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const paymentMethod = paymentMethodSelect.value;
+                let valid = true;
+
+                if (paymentMethod === 'Credit Card') {
+                    valid = [...creditCardDetails.querySelectorAll('input')].every(input => input.value.trim() !== '');
+                } else if (paymentMethod === 'PayPal') {
+                    valid = paypalDetails.querySelector('input').value.trim() !== '';
+                } else if (paymentMethod === 'Bank Transfer') {
+                    valid = [...bankTransferDetails.querySelectorAll('input')].every(input => input.value.trim() !== '');
+                }
+
+                if (!valid) {
+                    alert('Please fill in all payment details.');
+                    return;
+                }
+
+                // Submit the form data using fetch
+                fetch('/book-service', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(Object.fromEntries(new FormData(form)))
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === 'Service booked successfully!') {
+                        alert('Booked successfully!');
+                        window.location.href = '/home.html'; // Redirect to home page
+                    } else {
+                        alert('Failed to book service: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while booking the service.');
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#" class="nav-logo">
+                <img src="https://png.pngtree.com/png-vector/20230124/ourmid/pngtree-pet-care-logo-png-image_6571337.png" alt="Logo" style="height: 60px;">
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18"></path>
+                </svg>
+            </button>
+    
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="services.html" class="nav-link active">Services</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="login.html" class="nav-link">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="booking-container">
+            <h1>Book a Service</h1>
+            <form class="booking-form" action="/book-service" method="POST">
+                <div class="form-group">
+                    <label for="service-type">Select Service</label>
+                    <select id="service-type" name="serviceType" required>
+                        <option value="" data-cost="0">Choose a service</option>
+                        <option value="boarding" data-cost="500">Pet Boarding - ₹500</option>
+                        <option value="grooming" data-cost="300">Pet Grooming - ₹300</option>
+                        <option value="walking" data-cost="200">Dog Walking - ₹200</option>
+                        <option value="health" data-cost="400">Pet Health Check - ₹400</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="pet-name">Pet's Name</label>
+                    <input type="text" id="pet-name" name="petName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pet-type">Pet Type</label>
+                    <select id="pet-type" name="petType" required>
+                        <option value="">Select pet type</option>
+                        <option value="dog">Dog</option>
+                        <option value="cat">Cat</option>
+                        <option value="bird">Bird</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="start-date">Start Date</label>
+                        <input type="date" id="start-date" name="startDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="end-date">End Date</label>
+                        <input type="date" id="end-date" name="endDate" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="time-slot">Preferred Time</label>
+                    <select id="time-slot" name="timeSlot" required>
+                        <option value="">Select time slot</option>
+                        <option value="morning">Morning (9 AM - 12 PM)</option>
+                        <option value="afternoon">Afternoon (12 PM - 3 PM)</option>
+                        <option value="evening">Evening (3 PM - 6 PM)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="special-instructions">Special Instructions</label>
+                    <textarea id="special-instructions" name="specialInstructions" rows="4"></textarea>
+                </div>
+
+                <!-- Payment Section -->
+                <div class="payment-section">
+                    <h2>Payment Details</h2>
+                    <div class="payment-summary">
+                        <p><strong>Service:</strong> <span id="service-summary">Pet Boarding</span></p>
+                        <p><strong>Total Cost:</strong> <strong>₹<span id="total-cost">500</span></strong></p>
+                    </div>
+                    <div class="payment-methods">
+                        <label for="payment-method">Select Payment Method</label>
+                        <select id="payment-method" name="paymentMethod" required>
+                            <option value="">Choose a method</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="PayPal">PayPal</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="payment-details" class="payment-details">
+                    <!-- Credit Card Details -->
+                    <div id="credit-card-details" style="display: none;">
+                        <div class="form-group">
+                            <label for="card-number">Card Number</label>
+                            <input type="text" id="card-number" name="cardNumber" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="form-group">
+                            <label for="expiry-date">Expiry Date</label>
+                            <input type="text" id="expiry-date" name="expiryDate" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" name="cvv" placeholder="123">
+                        </div>
+                    </div>
+
+                    <!-- PayPal Details -->
+                    <div id="paypal-details" style="display: none;">
+                        <div class="form-group">
+                            <label for="paypal-email">PayPal Email</label>
+                            <input type="email" id="paypal-email" name="paypalEmail" placeholder="email@example.com">
+                        </div>
+                    </div>
+
+                    <!-- Bank Transfer Details -->
+                    <div id="bank-transfer-details" style="display: none;">
+                        <div class="form-group">
+                            <label for="account-number">Account Number</label>
+                            <input type="text" id="account-number" name="accountNumber" placeholder="1234567890">
+                        </div>
+                        <div class="form-group">
+                            <label for="ifsc-code">IFSC Code</label>
+                            <input type="text" id="ifsc-code" name="ifscCode" placeholder="ABCD0123456">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button">Book Service</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2024 PawCare. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html> 
